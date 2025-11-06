@@ -1,0 +1,4 @@
+fastapi
+uvicorn[standard]
+html2image
+python-dotenv
