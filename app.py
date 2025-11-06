@@ -35,6 +35,7 @@ class RenderRequest(BaseModel):
 
 load_dotenv()
 API_KEY = os.getenv("API_KEY")
+CHROME_EXECUTABLE = os.getenv("CHROME_PATH") or os.getenv("HTML2IMAGE_CHROME_PATH")
 
 
 app = FastAPI(title="HTML -> PNG API", version="1.1.0")
@@ -53,7 +54,18 @@ def render_html_to_png(payload: RenderRequest) -> bytes:
         size = (payload.width, payload.height)
 
     with TemporaryDirectory() as tmp_dir:
-        hti = Html2Image(output_path=tmp_dir)
+        hti_kwargs: dict[str, object] = {
+            "output_path": tmp_dir,
+            "custom_flags": [
+                "--no-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-gpu",
+            ],
+        }
+        if CHROME_EXECUTABLE:
+            hti_kwargs["browser_executable"] = CHROME_EXECUTABLE
+
+        hti = Html2Image(**hti_kwargs)
         filename = f"render_{uuid4().hex}.png"
 
         if payload.delay_ms:

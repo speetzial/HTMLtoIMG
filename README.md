@@ -27,6 +27,8 @@ API erreichbar unter `http://127.0.0.1:8000`.
 2. Server neu starten.
 3. Bei jedem Request den Header `X-API-Key: dein-geheimer-schluessel` mitsenden. Ohne gesetzte `API_KEY`-Variable sind alle Endpunkte frei erreichbar (praktisch fuer lokale Tests).
 
+Optional: Setze `CHROME_PATH` oder `HTML2IMAGE_CHROME_PATH`, falls du einen eigenen Chromium-/Chrome-Pfad vorgibst (z. B. in Docker-Setups).
+
 ## Endpunkte
 
 - `GET /health` - einfacher Healthcheck (erfordert `X-API-Key`, sobald `API_KEY` gesetzt ist).
